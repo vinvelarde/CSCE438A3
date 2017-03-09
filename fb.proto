@@ -1,0 +1,82 @@
+//-------------------------------------------------------------
+// CSCE 438: Distributed objects programming
+// HW2: An Improved Chat Room Service
+// 
+// Proto file
+// Vincent Velarde, Kyle Rowland
+// February 2017
+//
+// NOTES:
+// 	-Expands upon previous homework in functionality and by
+// 		introducing RPCs and Protocol Buffers
+//
+//	-Project roughly mimicks the functionality of Twitter
+//
+//-------------------------------------------------------------
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "CSCE468.HW.improvedChat";
+option java_outer_classname = "FBProto";
+option objc_class_prefix = "FB";
+
+package HW2;
+
+service Tweeter {
+	//called when client joins server
+	//	takes current username and returns welcome message
+	rpc Welcome (User) returns (SendMsg) {}
+	
+	//called when client switches to chat mode
+	//	takes current username and returns last 20 messages from their log
+	rpc Chat (User) returns (stream SendMsg) {}
+
+	//called when client issues "LIST" command
+	//	takes current username and returns list of all users
+	//	indicates which users the current user is following
+	rpc List (User) returns (stream User) {}
+	
+	//called when client issues "JOIN" or "LEAVE" command
+	//	takes current username, username of another user, and boolean indicating
+	//		whether to follow or unfollow that user (true = follow, false = unfollow)
+	//	returns confirmation message
+	rpc Following (Action) returns (SendMsg) {}
+	
+	//called when a client in chat mode sends a message
+	//	takes current username, computes time and date of message at server,
+	//		writes that message to follower files and sends the message to
+	//		any currently logged in followers
+	//	returns confirmation message
+	rpc Msg (SendMsg) returns (SendMsg) {}
+}
+
+//used to store a list of all users
+message UserBase {
+	repeated User user = 1;
+}
+
+//contains username and an optional boolean used in the LIST function
+message User {
+	string username = 1;
+	repeated string followers = 2;
+	bool following = 3;
+	repeated SendMsg mail = 4;
+	repeated SendMsg userlog = 5;
+}
+
+//contains current username, username of a user to follow or unfollow
+//	and a boolean indicating to follow or unfollow that user
+message Action {
+	string currentuser = 1;
+	string username = 2;
+	bool act = 3;
+}
+
+//contains message and senders username
+message SendMsg {
+	string sender = 1;
+	string timestamp = 2;
+	string message = 3;
+}
+
