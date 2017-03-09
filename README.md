@@ -14,6 +14,8 @@ March 2017
 ##Functionality Overview:
 ###Client Code - fbc.cpp: 
 Connects to server and sends a set number of messages at a set frequency:
+- Instructs user to follow the current user from any followers and then enter any key to continue
+- Once a key is entered the program send the set number of messages at the given frequency
 
 ###Follower Code - fbc2.cpp
 Connects to server and recieves incoming messages
