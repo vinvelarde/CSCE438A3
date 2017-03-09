@@ -7,7 +7,7 @@ March 2017
   
 ###Compiling and Running the Program:
 - Use "make all" to compile and "make clean" to clear everything but source files
-- Run server with "./server /<port/>"
+- Run server with "./server \<port>"
 - Run client with "./client <hostname> <port> <username>"
 
 ##Functionality Overview:
