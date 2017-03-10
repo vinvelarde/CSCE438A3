@@ -9,6 +9,7 @@ March 2017
 - Use "make all" to compile and "make clean" to clear everything but source files
 - Run server with "./server \<port>"
 - Run client with "./client \<hostname> \<port> \<username> \<# chats> \<frequency>"
+  - \<frequency> is the number of ms between messages
 - Run follower with "./follower \<hostname> \<port> \<username>
 
 ##Functionality Overview:
