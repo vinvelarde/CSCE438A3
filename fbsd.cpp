@@ -160,6 +160,8 @@ class masterServer final : public Tweeter::Service {
 		return Status::OK;
 	}
 	
+	int count = 0;
+	
 	//Used for sending client or server messages
 	Status Msg(ServerContext* context, const SendMsg* msg,
 				SendMsg* confirm) override {
@@ -179,7 +181,7 @@ class masterServer final : public Tweeter::Service {
 				break;
 			}
 		}
-		
+		count++;
 		//now that we have the names of all the followers we need to update their logs
 		SendMsg* m;
 		for(int i=0; i<userList.user_size(); i++) {	//iterate through userList
@@ -188,7 +190,9 @@ class masterServer final : public Tweeter::Service {
 				if(u->username() == followers[j]) {	//find matching entries
 					m = u->add_userlog();	//update userlog with the message
 					m->set_sender(msg->sender());
-					m->set_timestamp(ctime(&tt));
+					std::string stamp = ctime(&tt);
+					std::cout << count << ": " << stamp << std::endl;
+					m->set_timestamp(/*ctime(&tt)*/stamp);
 					m->set_message(msg->message());
 				}
 			}
